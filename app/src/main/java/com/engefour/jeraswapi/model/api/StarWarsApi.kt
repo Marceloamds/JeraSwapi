@@ -1,5 +1,6 @@
 package com.engefour.jeraswapi.model.api
 
+import android.net.Uri
 import com.engefour.jeraswapi.model.*
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
@@ -44,9 +45,27 @@ class StarWarsApi{
     fun loadMoviesFull() : Observable<Filme>{
         return service.listMovies()
             .flatMap { filmResult -> Observable.from(filmResult.results)
-                .flatMap { film -> Observable.just(Filme(
+                .flatMap { film ->
+                    Observable.zip(
+                        Observable.just(Filme(
                     film.title,film.episodeId,film.openingCrawl,film.director,film.producer,
                     film.releaseDate,ArrayList<Especie>(),ArrayList<Nave>(),ArrayList<Veiculo>(),
-                    ArrayList<Pessoa>(),ArrayList<Planeta>(),film.url,film.creationDate,film.editedDate)) }}
+                    ArrayList<Pessoa>(),ArrayList<Planeta>(),film.url,film.creationDate,film.editedDate)),
+                        Observable.from(film.charactersUrls)
+                            .flatMap {personUrl ->
+                                service.loadPerson(Uri.parse(personUrl).lastPathSegment)
+                            }
+                            .flatMap { person ->
+                                Observable.just(Pessoa(person.name,person.birthYear,person.eyeColor,person.gender,
+                                    person.hairColor,person.height,person.mass,person.skinColor,person.homeworld,
+                                    ArrayList<Filme>(),ArrayList<Especie>(),ArrayList<Nave>(),ArrayList<Veiculo>(),
+                                    person.url,person.creationDate,person.editedDate))
+                            }
+                            .toList()
+                    ) { movie, people ->
+                        movie.characters.addAll(people)
+                        movie
+                    }
+                }}
     }
 }
