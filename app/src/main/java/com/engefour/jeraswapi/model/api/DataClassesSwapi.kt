@@ -3,7 +3,10 @@ package com.engefour.jeraswapi.model.api
 import com.google.gson.annotations.SerializedName
 import java.util.*
 
-data class FilmResult(val result: List<Film>)
+//Data classes da API para serem usadas na requisição ao swapi
+//Todas as variáveis estão com o mesmo nome da API
+
+data class FilmResult(val results: List<Film>)
 
 data class  Film(val title:String,
                  @SerializedName("episode_id") val episodeId:Int,
@@ -16,7 +19,7 @@ data class  Film(val title:String,
                  @SerializedName("vehicles") val vehiclesUrls: List<String>,
                  @SerializedName("characters") val charactersUrls: List<String>,
                  @SerializedName("planets") val planetsUrls: List<String>,
-                 @SerializedName("url") val hyperMediaUrl: String,
+                 val url: String,
                  @SerializedName("created") val creationDate: String,
                  @SerializedName("edited") val editedDate: String)
 
@@ -32,7 +35,7 @@ data class  Specie( val name:String,
                     val homeworld: String,
                     @SerializedName("people") val peopleUrls: List<String>,
                     @SerializedName("films") val filmsUrls: List<String>,
-                    @SerializedName("url") val hyperMediaUrl: String,
+                    val url: String,
                     @SerializedName("created") val creationDate: String,
                     @SerializedName("edited") val editedDate: String)
 
@@ -50,7 +53,7 @@ data class  Starship( val name:String,
                       val consumables: String,
                       @SerializedName("films") val filmsUrls: List<String>,
                       @SerializedName("pilots") val pilotsUrls: List<String>,
-                      @SerializedName("url") val hyperMediaUrl: String,
+                      val url: String,
                       @SerializedName("created") val creationDate: String,
                       @SerializedName("edited ") val editedDate: String)
 
@@ -67,7 +70,7 @@ data class  Vehicle( val name:String,
                      @SerializedName("consumables") val consumables: String,
                      @SerializedName("films") val filmsUrls: List<String>,
                      @SerializedName("pilots ") val pilotsUrls: List<String>,
-                     @SerializedName("url ") val hyperMediaUrl: String,
+                     val url: String,
                      @SerializedName("created") val creationDate: String,
                      @SerializedName("edited") val editedDate: String)
 
@@ -84,7 +87,7 @@ data class  Person( val name:String,
                        @SerializedName("species") val speciesUrls: List<String>,
                        @SerializedName("starships") val starshipsUrls: List<String>,
                        @SerializedName("vehicles ") val vehiclesUrls: List<String>,
-                       @SerializedName("url ") val hyperMediaUrl: String,
+                       val url: String,
                        @SerializedName("created") val creationDate: String,
                        @SerializedName("edited") val editedDate: String)
 
@@ -99,6 +102,6 @@ data class  Planet( val name:String,
                     @SerializedName("surface_water") val surfaceWater: String,
                     @SerializedName("residents") val residentsUrls: List<String>,
                     @SerializedName("films") val filmsUrls: List<String>,
-                    @SerializedName("url") val hyperMediaUrl: String,
+                    val url: String,
                     @SerializedName("created") val creationDate: String,
                     @SerializedName("edited") val editedDate: String)
