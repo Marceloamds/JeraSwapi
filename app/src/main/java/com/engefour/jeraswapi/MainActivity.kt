@@ -1,4 +1,4 @@
-,package com.engefour.jeraswapi
+package com.engefour.jeraswapi
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
