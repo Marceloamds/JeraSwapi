@@ -1,6 +1,7 @@
 package com.engefour.jeraswapi.model.api
 
 import android.net.Uri
+import android.util.Log
 import com.engefour.jeraswapi.model.*
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
@@ -46,6 +47,19 @@ class StarWarsApi{
                     film.charactersUrls,film.planetsUrls,film.url,film.creationDate,film.editedDate)) }}
     }
 
+    fun loadVehicles(vehiclesUrls:ArrayList<String>): Observable<Veiculo>{
+        return Observable.from(vehiclesUrls)
+            .flatMap { vehicleUrl ->
+                Log.d("lala1",vehicleUrl)
+                service.loadVehicle(Uri.parse(vehicleUrl).lastPathSegment)
+            }
+            .flatMap { vehicle->
+                Observable.just(Veiculo(vehicle.name,vehicle.model,vehicle.vehicleClass,vehicle.manufacturer,vehicle.length,
+                    vehicle.costInCredits,vehicle.crew,vehicle.passengers,vehicle.maxAtmospheringSpeed,vehicle.cargoCapacity,
+                    vehicle.consumables,vehicle.filmsUrls,vehicle.pilotsUrls,vehicle.url,vehicle.creationDate,vehicle.editedDate))
+            }
+    }
+
     fun loadMoviesFull() : Observable<Filme>{
         return service.listMovies()
             .flatMap { filmResult -> Observable.from(filmResult.results)
@@ -62,7 +76,7 @@ class StarWarsApi{
                             .flatMap { person ->
                                 Observable.just(Pessoa(person.name,person.birthYear,person.eyeColor,person.gender,
                                     person.hairColor,person.height,person.mass,person.skinColor,person.homeworld,
-                                    ArrayList<Filme>(),ArrayList<Especie>(),ArrayList<Nave>(),ArrayList<Veiculo>(),
+                                    ArrayList<String>(),ArrayList<String>(),ArrayList<String>(),ArrayList<String>(),
                                     person.url,person.creationDate,person.editedDate))
                             }
                             .toList()

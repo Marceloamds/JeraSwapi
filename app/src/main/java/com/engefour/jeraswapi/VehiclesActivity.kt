@@ -2,8 +2,12 @@ package com.engefour.jeraswapi
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.ArrayAdapter
+import com.engefour.jeraswapi.model.api.StarWarsApi
 import kotlinx.android.synthetic.main.activity_vehicles.*
+import rx.android.schedulers.AndroidSchedulers
+import rx.schedulers.Schedulers
 
 class VehiclesActivity : AppCompatActivity() {
 
@@ -12,8 +16,26 @@ class VehiclesActivity : AppCompatActivity() {
         setContentView(R.layout.activity_vehicles)
 
         val vehiclesUrls = intent.getStringArrayListExtra("vehiclesUrls")
-        val movieAdapter = ArrayAdapter(
+        val list = ArrayList<String>()
+        val api = StarWarsApi()
+        val vehicleAdapter = ArrayAdapter(
             this, android.R.layout.simple_list_item_1, vehiclesUrls)
-        listViewVehicles.adapter = movieAdapter
+        api.loadVehicles(vehiclesUrls)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe( {
+                //onNext - quando completa uma requisição
+                    vehicle -> list.add(vehicle.name)
+                    Log.d("lala",vehicle.name)
+            },{
+                //onError - quando dá erro na requisição
+                    e -> e.printStackTrace()
+            },{
+                //onComplete - quando completa todas as requisições
+                vehicleAdapter.clear()
+                vehicleAdapter.addAll(list)
+                vehicleAdapter.notifyDataSetChanged()
+            })
+        listViewVehicles.adapter = vehicleAdapter
     }
 }
