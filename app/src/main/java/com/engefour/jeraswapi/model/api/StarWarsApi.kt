@@ -38,8 +38,8 @@ class StarWarsApi{
             .flatMap { filmResult -> Observable.from(filmResult.results)
                 .flatMap { film -> Observable.just(Filme(
                     film.title,film.episodeId,film.openingCrawl,film.director,film.producer,
-                    film.releaseDate,ArrayList<Especie>(),ArrayList<Nave>(),ArrayList<Veiculo>(),
-                    ArrayList<Pessoa>(),ArrayList<Planeta>(),film.url,film.creationDate,film.editedDate)) }}
+                    film.releaseDate,film.speciesUrls,film.starshipsUrls,film.vehiclesUrls,
+                    film.charactersUrls,film.planetsUrls,film.url,film.creationDate,film.editedDate)) }}
     }
 
     fun loadMoviesFull() : Observable<Filme>{
@@ -49,8 +49,8 @@ class StarWarsApi{
                     Observable.zip(
                         Observable.just(Filme(
                     film.title,film.episodeId,film.openingCrawl,film.director,film.producer,
-                    film.releaseDate,ArrayList<Especie>(),ArrayList<Nave>(),ArrayList<Veiculo>(),
-                    ArrayList<Pessoa>(),ArrayList<Planeta>(),film.url,film.creationDate,film.editedDate)),
+                    film.releaseDate,ArrayList<String>(),ArrayList<String>(),ArrayList<String>(),
+                    ArrayList<String>(),ArrayList<String>(),film.url,film.creationDate,film.editedDate)),
                         Observable.from(film.charactersUrls)
                             .flatMap {personUrl ->
                                 service.loadPerson(Uri.parse(personUrl).lastPathSegment)
@@ -63,7 +63,7 @@ class StarWarsApi{
                             }
                             .toList()
                     ) { movie, people ->
-                        movie.characters.addAll(people)
+//                        movie.characters.addAll(people)
                         movie
                     }
                 }}

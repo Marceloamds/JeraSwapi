@@ -4,9 +4,6 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.ArrayAdapter
-import android.widget.ListView
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.engefour.jeraswapi.model.api.StarWarsApi
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Item
@@ -16,7 +13,8 @@ import kotlinx.android.synthetic.main.row_movies.view.*
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import androidx.recyclerview.widget.GridLayoutManager
-
+import com.engefour.jeraswapi.model.Filme
+import com.google.gson.Gson
 
 
 class MainActivity : AppCompatActivity() {
@@ -34,23 +32,26 @@ class MainActivity : AppCompatActivity() {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe( {
-                movie -> movieAdapter.add(MovieItem(movie.title,movie.episodeId))
+                //onNext - quando completa uma requisição
+                movie -> movieAdapter.add(MovieItem(this,movie))
             },{
+                //onError - quando dá erro na requisição
                 e -> e.printStackTrace()
             },{
+                //onComplete - quando completa todas as requisições
                 movieAdapter.notifyDataSetChanged()
             })
 
     }
 
     //Classe do Groupie que infla a view para o listview
-    class MovieItem(private val movieTitle:String, private val episodeId:Int): Item<ViewHolder>(){
+    class MovieItem(private val context: Context,private val movie: Filme): Item<ViewHolder>(){
         override fun bind(viewHolder: ViewHolder, position: Int) {
-            viewHolder.itemView.textViewTitle.text = movieTitle
+            viewHolder.itemView.textViewTitle.text = movie.title
             viewHolder.itemView.setOnClickListener {
-//                val i = Intent(context,MovieActivity::class.java)
-//                i.putExtra("userId", userId)
-//                context?.startActivity(i)
+                val i = Intent(context,MovieActivity::class.java)
+                i.putExtra("movie", Gson().toJson(movie))
+                context.startActivity(i)
             }
         }
         override fun getLayout(): Int {
