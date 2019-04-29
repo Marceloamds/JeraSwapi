@@ -60,6 +60,19 @@ class StarWarsApi{
             }
     }
 
+    fun loadPlanets(planetsUrls:ArrayList<String>): Observable<Planeta> {
+        return Observable.from(planetsUrls)
+            .flatMap { planetUrl ->
+                Log.d("lala1",planetUrl)
+                service.loadPlanet(Uri.parse(planetUrl).lastPathSegment)
+            }
+            .flatMap { planet->
+                Observable.just(Planeta(planet.name,planet.diameter,planet.rotationPeriod,planet.orbitalPeriod,planet.gravity,
+                    planet.population,planet.climate,planet.terrain,planet.surfaceWater,planet.residentsUrls,planet.filmsUrls,
+                    planet.url,planet.creationDate,planet.editedDate))
+            }
+    }
+
     fun loadMoviesFull() : Observable<Filme>{
         return service.listMovies()
             .flatMap { filmResult -> Observable.from(filmResult.results)
