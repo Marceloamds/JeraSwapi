@@ -9,9 +9,10 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import rx.Observable
+import java.util.concurrent.TimeUnit
 
 class StarWarsApi{
-    val service: StarWarsApiDef
+    private val service: StarWarsApiDef
 
     init{
         //logging é opcional. Serve pra pegar o log do que tá acontecendo com o servidor
@@ -20,6 +21,9 @@ class StarWarsApi{
 
         val httpClient = OkHttpClient.Builder()
         httpClient.addInterceptor(logging)
+            .connectTimeout(1, TimeUnit.MINUTES) // connect timeout
+            .writeTimeout(1, TimeUnit.MINUTES) // write timeout
+            .readTimeout(1, TimeUnit.MINUTES) // read timeout
 
         val gson = GsonBuilder().setLenient().create()
 

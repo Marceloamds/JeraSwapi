@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
         override fun bind(viewHolder: ViewHolder, position: Int) {
             viewHolder.itemView.textViewTitle.text = movie.title
             viewHolder.itemView.setOnClickListener {
-                val i = Intent(context,MovieActivity::class.java)
+                val i = Intent(context,MovieDetailActivity::class.java)
                 i.putExtra("movie", Gson().toJson(movie))
                 context.startActivity(i)
             }
