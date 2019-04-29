@@ -50,7 +50,6 @@ class StarWarsApi{
     fun loadVehicles(vehiclesUrls:ArrayList<String>): Observable<Veiculo>{
         return Observable.from(vehiclesUrls)
             .flatMap { vehicleUrl ->
-                Log.d("lala1",vehicleUrl)
                 service.loadVehicle(Uri.parse(vehicleUrl).lastPathSegment)
             }
             .flatMap { vehicle->
@@ -63,7 +62,6 @@ class StarWarsApi{
     fun loadPlanets(planetsUrls:ArrayList<String>): Observable<Planeta> {
         return Observable.from(planetsUrls)
             .flatMap { planetUrl ->
-                Log.d("lala1",planetUrl)
                 service.loadPlanet(Uri.parse(planetUrl).lastPathSegment)
             }
             .flatMap { planet->
@@ -73,30 +71,46 @@ class StarWarsApi{
             }
     }
 
-    fun loadMoviesFull() : Observable<Filme>{
-        return service.listMovies()
-            .flatMap { filmResult -> Observable.from(filmResult.results)
-                .flatMap { film ->
-                    Observable.zip(
-                        Observable.just(Filme(
-                    film.title,film.episodeId,film.openingCrawl,film.director,film.producer,
-                    film.releaseDate,ArrayList<String>(),ArrayList<String>(),ArrayList<String>(),
-                    ArrayList<String>(),ArrayList<String>(),film.url,film.creationDate,film.editedDate)),
-                        Observable.from(film.charactersUrls)
-                            .flatMap {personUrl ->
-                                service.loadPerson(Uri.parse(personUrl).lastPathSegment)
-                            }
-                            .flatMap { person ->
-                                Observable.just(Pessoa(person.name,person.birthYear,person.eyeColor,person.gender,
-                                    person.hairColor,person.height,person.mass,person.skinColor,person.homeworld,
-                                    ArrayList<String>(),ArrayList<String>(),ArrayList<String>(),ArrayList<String>(),
-                                    person.url,person.creationDate,person.editedDate))
-                            }
-                            .toList()
-                    ) { movie, people ->
-//                        movie.characters.addAll(people)
-                        movie
-                    }
-                }}
+
+    fun loadCharacters(charactersUrls:ArrayList<String>): Observable<Pessoa> {
+        return Observable.from(charactersUrls)
+            .flatMap { characterUrl ->
+                service.loadPerson(Uri.parse(characterUrl).lastPathSegment)
+            }
+            .flatMap { character->
+                Observable.just(Pessoa(character.name,character.birthYear,character.eyeColor,character.gender,
+                    character.hairColor,character.height,character.mass,character.skinColor,character.homeworld,
+                    character.filmsUrls,character.speciesUrls,character.starshipsUrls,character.vehiclesUrls,character.url,
+                    character.creationDate, character.editedDate))
+            }
+
     }
+
+    fun loadStarships(starshipsUrls:ArrayList<String>): Observable<Nave> {
+        return Observable.from(starshipsUrls)
+            .flatMap { starshipUrl ->
+                service.loadStarship(Uri.parse(starshipUrl).lastPathSegment)
+            }
+            .flatMap { starship->
+                Observable.just(Nave(starship.name,starship.model,starship.manufacturer,starship.costInCredits,
+                    starship.length,starship.crew,starship.passengers,starship.maxAtmospheringSpeed,starship.hyperdriveRating,
+                    starship.mglt,starship.cargoCapacity,starship.consumables,starship.filmsUrls,starship.pilotsUrls,starship.url,
+                    starship.creationDate,starship.editedDate))
+            }
+
+    }
+
+    fun loadSpecies(speciesUrls:ArrayList<String>): Observable<Especie> {
+        return Observable.from(speciesUrls)
+            .flatMap { specieUrl ->
+                service.loadSpecie(Uri.parse(specieUrl).lastPathSegment)
+            }
+            .flatMap { specie->
+                Observable.just(Especie(specie.name,specie.classification,specie.designation,specie.averageHeight,
+                    specie.averageLifespan,specie.eyeColors,specie.hairColors,specie.skinColors,specie.language,
+                    specie.homeworld,specie.peopleUrls,specie.filmsUrls,specie.url,specie.creationDate,specie.editedDate))
+            }
+
+    }
+
 }
