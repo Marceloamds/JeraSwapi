@@ -1,5 +1,6 @@
 package com.engefour.jeraswapi
 
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -17,6 +18,9 @@ import com.bumptech.glide.Glide
 import com.engefour.jeraswapi.model.Filme
 import com.google.gson.Gson
 import android.graphics.drawable.Drawable
+import android.view.LayoutInflater
+import android.view.Window
+import android.widget.TextView
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
 
@@ -56,7 +60,7 @@ class MainActivity : AppCompatActivity() {
                 movieAdapter.notifyDataSetChanged()
                 Glide.with(this).load(R.drawable.background).into(object : SimpleTarget<Drawable>() {
                     override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
-                        mainLayout.setBackground(resource)
+                        mainLayout.background = resource
                     }
                 })
             })
@@ -74,6 +78,20 @@ class MainActivity : AppCompatActivity() {
                 val i = Intent(context,MovieDetailActivity::class.java)
                 i.putExtra("movie", Gson().toJson(movie))
                 context.startActivity(i)
+            }
+            
+            viewHolder.itemView.buttonSinopse.setOnClickListener {
+                //Chama o popup de troca e acessa os elementos
+                val dialog = Dialog(context)
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+                dialog.setCanceledOnTouchOutside(true)
+                val view = LayoutInflater.from(context).inflate(R.layout.popup_opening,null)
+                val textViewOpening = view.findViewById<TextView>(R.id.textViewOpening)
+                val textViewOpeningTitle = view.findViewById<TextView>(R.id.textViewOpeningTitle)
+                textViewOpening.text = movie.openingCrawl
+                textViewOpeningTitle.text = movie.title
+                dialog.setContentView(view)
+                dialog.show()
             }
 
             when(movie.episodeId){
