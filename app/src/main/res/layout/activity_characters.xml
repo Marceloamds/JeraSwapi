@@ -10,8 +10,7 @@
 
 <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:context=".CharactersActivity">
+        android:layout_height="wrap_content">
 
     <TextView
             android:text="A New Hope's Characters"

@@ -4,14 +4,16 @@ import com.engefour.jeraswapi.R
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.row_people.view.*
+import kotlinx.android.synthetic.main.row_planets.view.*
 
 //Classe do Groupie que infla a view para o listview
-class PersonItem(private val person: Pessoa): Item<ViewHolder>(){
+class PlanetItem(private val planet: Planeta): Item<ViewHolder>(){
     override fun bind(viewHolder: ViewHolder, position: Int) {
-        viewHolder.itemView.textViewPersonName.text = person.name
-        viewHolder.itemView.textViewBornDate.text = "Born in "+person.birthYear
-        viewHolder.itemView.textViewHeightMass.text = person.height+" cm height , "+person.mass+" kg"
-        viewHolder.itemView.textViewPersonColor.text = person.skinColor+" skin, "+person.hairColor+" hair, "+person.eyeColor+" eyes"
+        viewHolder.itemView.textViewPlanetName.text = planet.name+" - "+planet.population+" habitants"
+        viewHolder.itemView.textViewClimateTerrain.text = planet.climate + " climate \n"+planet.terrain+" terrain"
+        viewHolder.itemView.textViewPeriods.text = planet.rotationPeriod + " hours day, "+planet.orbitalPeriod+" days year"
+        viewHolder.itemView.textViewWaterGravity.text =planet.surfaceWater+"% water. Gravity: "+planet.gravity
+
 //        val drawable =  when(movie.episodeId){
 //            1-> R.drawable.thephantommenace
 //            2 -> R.drawable.attackoftheclones
@@ -25,6 +27,6 @@ class PersonItem(private val person: Pessoa): Item<ViewHolder>(){
 //        Glide.with(viewHolder.itemView).load(drawable).centerCrop().into(viewHolder.itemView.imageViewPoster)
     }
     override fun getLayout(): Int {
-        return R.layout.row_people
+        return R.layout.row_planets
     }
 }

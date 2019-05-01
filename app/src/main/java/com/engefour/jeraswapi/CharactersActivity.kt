@@ -42,7 +42,7 @@ class CharactersActivity : AppCompatActivity() {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe( { character ->
             //onNext - quando completa uma requisição
-                list.add(PersonItem(this,character))
+                list.add(PersonItem(character))
                 characterAdapter.clear()
                 characterAdapter.addAll(list)
                 characterAdapter.notifyDataSetChanged()
@@ -60,7 +60,5 @@ class CharactersActivity : AppCompatActivity() {
                     mainLayout.background = resource
                 }
             })
-
-        listViewCharacters.adapter = characterAdapter
     }
 }
