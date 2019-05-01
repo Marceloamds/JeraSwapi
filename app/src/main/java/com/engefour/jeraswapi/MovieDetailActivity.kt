@@ -59,27 +59,32 @@ class MovieDetailActivity : AppCompatActivity() {
         buttonCharacters.setOnClickListener {
             val i = Intent(this,CharactersActivity::class.java)
             i.putStringArrayListExtra("charactersUrls", movie.characters)
+            i.putExtra("movieTitle",movie.title)
             startActivity(i)
         }
 
         buttonSpecies.setOnClickListener {
             val i = Intent(this,SpeciesActivity::class.java)
             i.putStringArrayListExtra("speciesUrls", movie.species)
+            i.putExtra("movieTitle",movie.title)
             startActivity(i)
         }
         buttonPlanets.setOnClickListener {
             val i = Intent(this,PlanetsActivity::class.java)
             i.putStringArrayListExtra("planetsUrls", movie.planets)
+            i.putExtra("movieTitle",movie.title)
             startActivity(i)
         }
         buttonStarships.setOnClickListener {
             val i = Intent(this,StarshipsActivity::class.java)
             i.putStringArrayListExtra("starshipsUrls", movie.starships)
+            i.putExtra("movieTitle",movie.title)
             startActivity(i)
         }
         buttonVehicles.setOnClickListener {
             val i = Intent(this,VehiclesActivity::class.java)
             i.putStringArrayListExtra("vehiclesUrls", movie.vehicles)
+            i.putExtra("movieTitle",movie.title)
             startActivity(i)
         }
 

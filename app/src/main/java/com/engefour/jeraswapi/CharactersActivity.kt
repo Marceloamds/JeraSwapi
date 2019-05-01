@@ -1,9 +1,17 @@
 package com.engefour.jeraswapi
 
+import android.graphics.Typeface
+import android.graphics.drawable.Drawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.ArrayAdapter
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.SimpleTarget
+import com.bumptech.glide.request.transition.Transition
+import com.engefour.jeraswapi.model.PersonItem
 import com.engefour.jeraswapi.model.api.StarWarsApi
+import com.xwray.groupie.GroupAdapter
+import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.activity_characters.*
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
@@ -15,16 +23,26 @@ class CharactersActivity : AppCompatActivity() {
         setContentView(R.layout.activity_characters)
 
         val charactersUrls = intent.getStringArrayListExtra("charactersUrls")
-        val list = ArrayList<String>()
+        val movieName = intent.getStringExtra("movieTitle")
+        val list = ArrayList<PersonItem>()
         val api = StarWarsApi()
-        val characterAdapter= ArrayAdapter(
-            this, android.R.layout.simple_list_item_1,  ArrayList<String>())
+        val characterAdapter = GroupAdapter<ViewHolder>()
+
+        val jediFont = Typeface.createFromAsset(assets, "fonts/Starjedi.ttf")
+        textViewTitle.typeface = jediFont
+        textViewTitle.text = "$movieName's Characters"
+
+        listViewCharacters.layoutManager = LinearLayoutManager(this)
+        listViewCharacters.adapter = characterAdapter
+        listViewCharacters.isNestedScrollingEnabled = false
+        listViewCharacters.isFocusable = false
+
         api.loadCharacters(charactersUrls)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe( { character ->
             //onNext - quando completa uma requisição
-                list.add(character.name)
+                list.add(PersonItem(this,character))
                 characterAdapter.clear()
                 characterAdapter.addAll(list)
                 characterAdapter.notifyDataSetChanged()
@@ -32,7 +50,15 @@ class CharactersActivity : AppCompatActivity() {
                 //onError - quando dá erro na requisição
                     e -> e.printStackTrace()
             },{
+                characterAdapter.notifyDataSetChanged()
                 //onComplete - quando completa todas as requisições
+            })
+
+        Glide.with(this).load(R.drawable.background).centerCrop()
+            .into(object : SimpleTarget<Drawable>() {
+                override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
+                    mainLayout.background = resource
+                }
             })
 
         listViewCharacters.adapter = characterAdapter
