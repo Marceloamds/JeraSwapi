@@ -1,17 +1,20 @@
 package com.engefour.jeraswapi.model
 
+import android.annotation.SuppressLint
 import com.engefour.jeraswapi.R
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
-import kotlinx.android.synthetic.main.row_planets.view.*
+import kotlinx.android.synthetic.main.row_species.view.*
 
 //Classe do Groupie que infla a view para o listview
-class PlanetItem(private val planet: Planeta): Item<ViewHolder>(){
+class SpecieItem(private val specie: Especie): Item<ViewHolder>(){
+    @SuppressLint("SetTextI18n")
     override fun bind(viewHolder: ViewHolder, position: Int) {
-        viewHolder.itemView.textViewPlanetName.text = planet.name+" - "+planet.population+" habitants"
-        viewHolder.itemView.textViewClimateTerrain.text = planet.climate + " climate \n"+planet.terrain+" terrain"
-        viewHolder.itemView.textViewPeriods.text = planet.rotationPeriod + " hours day, "+planet.orbitalPeriod+" days year"
-        viewHolder.itemView.textViewWaterGravity.text =planet.surfaceWater+"% water. Gravity: "+planet.gravity
+        viewHolder.itemView.textViewSpecieName.text = specie.name+" - "+specie.designation+" "+ specie.classification
+        viewHolder.itemView.textViewHeightLifespan.text = "average "+specie.averageHeight + " height " +
+                                                         "\naverage "+specie.averageLifespan+" years lifespan"
+        viewHolder.itemView.textViewLanguage.text = "Speaks "+specie.language
+        viewHolder.itemView.textViewSpecieColor.text =specie.eyeColors+" eyes\n"+specie.hairColors+" hair"
 
 //        val drawable =  when(movie.episodeId){
 //            1-> R.drawable.thephantommenace
@@ -26,6 +29,6 @@ class PlanetItem(private val planet: Planeta): Item<ViewHolder>(){
 //        Glide.with(viewHolder.itemView).load(drawable).centerCrop().into(viewHolder.itemView.imageViewPoster)
     }
     override fun getLayout(): Int {
-        return R.layout.row_planets
+        return R.layout.row_species
     }
 }
