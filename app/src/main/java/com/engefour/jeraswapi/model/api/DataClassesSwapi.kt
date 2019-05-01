@@ -41,6 +41,7 @@ data class  Specie( val name:String,
 
 data class  Starship( val name:String,
                       val model: String,
+                      @SerializedName("starship_class") val starshipClass: String,
                       val manufacturer: String,
                       @SerializedName("cost_in_credits") val costInCredits: String,
                       val length:String,

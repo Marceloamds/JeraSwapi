@@ -92,7 +92,7 @@ class StarWarsApi{
                 service.loadStarship(Uri.parse(starshipUrl).lastPathSegment)
             }
             .flatMap { starship->
-                Observable.just(Nave(starship.name,starship.model,starship.manufacturer,starship.costInCredits,
+                Observable.just(Nave(starship.name,starship.model,starship.starshipClass,starship.manufacturer,starship.costInCredits,
                     starship.length,starship.crew,starship.passengers,starship.maxAtmospheringSpeed,starship.hyperdriveRating,
                     starship.mglt,starship.cargoCapacity,starship.consumables,starship.filmsUrls,starship.pilotsUrls,starship.url,
                     starship.creationDate,starship.editedDate))

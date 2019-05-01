@@ -1,10 +1,20 @@
 package com.engefour.jeraswapi
 
+import android.graphics.Typeface
+import android.graphics.drawable.Drawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.ArrayAdapter
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.SimpleTarget
+import com.bumptech.glide.request.transition.Transition
+import com.engefour.jeraswapi.model.StarshipItem
 import com.engefour.jeraswapi.model.api.StarWarsApi
+import com.xwray.groupie.GroupAdapter
+import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.activity_starships.*
+import kotlinx.android.synthetic.main.activity_starships.mainLayout
+import kotlinx.android.synthetic.main.activity_starships.textViewTitle
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 
@@ -15,16 +25,26 @@ class StarshipsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_starships)
 
         val starshipsUrls = intent.getStringArrayListExtra("starshipsUrls")
-        val list = ArrayList<String>()
+        val movieName = intent.getStringExtra("movieTitle")
+        val list = ArrayList<StarshipItem>()
         val api = StarWarsApi()
-        val starshipAdapter= ArrayAdapter(
-            this, android.R.layout.simple_list_item_1, ArrayList<String>())
+        val starshipAdapter = GroupAdapter<ViewHolder>()
+
+        val jediFont = Typeface.createFromAsset(assets, "fonts/Starjedi.ttf")
+        textViewTitle.typeface = jediFont
+        textViewTitle.text = "$movieName's Starships"
+
+        listViewStarships.layoutManager = LinearLayoutManager(this)
+        listViewStarships.adapter = starshipAdapter
+        listViewStarships.isNestedScrollingEnabled = false
+        listViewStarships.isFocusable = false
+
         api.loadStarships(starshipsUrls)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe( {
                 //onNext - quando completa uma requisição
-                    starship -> list.add(starship.name)
+                starship -> list.add(StarshipItem(starship))
                 starshipAdapter.clear()
                 starshipAdapter.addAll(list)
                 starshipAdapter.notifyDataSetChanged()
@@ -35,6 +55,11 @@ class StarshipsActivity : AppCompatActivity() {
                 //onComplete - quando completa todas as requisições
             })
 
-        listViewStarships.adapter = starshipAdapter
+        Glide.with(this).load(R.drawable.background).centerCrop()
+            .into(object : SimpleTarget<Drawable>() {
+                override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
+                    mainLayout.background = resource
+                }
+            })
     }
 }
