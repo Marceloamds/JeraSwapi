@@ -1,10 +1,17 @@
 package com.engefour.jeraswapi
 
+import android.graphics.Typeface
+import android.graphics.drawable.Drawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.widget.ArrayAdapter
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.SimpleTarget
+import com.bumptech.glide.request.transition.Transition
+import com.engefour.jeraswapi.model.VehicleItem
 import com.engefour.jeraswapi.model.api.StarWarsApi
+import com.xwray.groupie.GroupAdapter
+import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.activity_vehicles.*
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
@@ -16,16 +23,26 @@ class VehiclesActivity : AppCompatActivity() {
         setContentView(R.layout.activity_vehicles)
 
         val vehiclesUrls = intent.getStringArrayListExtra("vehiclesUrls")
-        val list = ArrayList<String>()
+        val movieName = intent.getStringExtra("movieTitle")
+        val list = ArrayList<VehicleItem>()
         val api = StarWarsApi()
-        val vehicleAdapter = ArrayAdapter(
-            this, android.R.layout.simple_list_item_1, ArrayList<String>())
+        val vehicleAdapter = GroupAdapter<ViewHolder>()
+
+        val jediFont = Typeface.createFromAsset(assets, "fonts/Starjedi.ttf")
+        textViewTitle.typeface = jediFont
+        textViewTitle.text = "$movieName's vehicles"
+
+        listViewVehicles.layoutManager = LinearLayoutManager(this)
+        listViewVehicles.adapter = vehicleAdapter
+        listViewVehicles.isNestedScrollingEnabled = false
+        listViewVehicles.isFocusable = false
+
         api.loadVehicles(vehiclesUrls)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe( {
                 //onNext - quando completa uma requisição
-                    vehicle -> list.add(vehicle.name)
+                    vehicle -> list.add(VehicleItem(vehicle))
                     vehicleAdapter.clear()
                     vehicleAdapter.addAll(list)
                     vehicleAdapter.notifyDataSetChanged()
@@ -36,6 +53,11 @@ class VehiclesActivity : AppCompatActivity() {
                 //onComplete - quando completa todas as requisições
 
             })
-        listViewVehicles.adapter = vehicleAdapter
+        Glide.with(this).load(R.drawable.background).centerCrop()
+            .into(object : SimpleTarget<Drawable>() {
+                override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
+                    mainLayout.background = resource
+                }
+            })
     }
 }
