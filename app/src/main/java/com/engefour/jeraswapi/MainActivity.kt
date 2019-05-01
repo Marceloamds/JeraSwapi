@@ -94,16 +94,17 @@ class MainActivity : AppCompatActivity() {
                 dialog.show()
             }
 
-            when(movie.episodeId){
-                1-> Glide.with(viewHolder.itemView).load(R.drawable.thephantommenace).centerCrop().into(viewHolder.itemView.imageViewPoster)
-                2 -> Glide.with(viewHolder.itemView).load(R.drawable.attackoftheclones).centerCrop().into(viewHolder.itemView.imageViewPoster)
-                3 -> Glide.with(viewHolder.itemView).load(R.drawable.revengeofthesith).centerCrop().into(viewHolder.itemView.imageViewPoster)
-                4 -> Glide.with(viewHolder.itemView).load(R.drawable.anewhope).centerCrop().into(viewHolder.itemView.imageViewPoster)
-                5 -> Glide.with(viewHolder.itemView).load(R.drawable.empirestrikesback).centerCrop().into(viewHolder.itemView.imageViewPoster)
-                6 -> Glide.with(viewHolder.itemView).load(R.drawable.returnofthejedi).centerCrop().into(viewHolder.itemView.imageViewPoster)
-                7 -> Glide.with(viewHolder.itemView).load(R.drawable.theforceawakens).centerCrop().into(viewHolder.itemView.imageViewPoster)
-                else -> Glide.with(viewHolder.itemView).load(R.drawable.placeholder).centerCrop().into(viewHolder.itemView.imageViewPoster)
+            val drawable =  when(movie.episodeId){
+                1-> R.drawable.thephantommenace
+                2 -> R.drawable.attackoftheclones
+                3 -> R.drawable.revengeofthesith
+                4 -> R.drawable.anewhope
+                5 -> R.drawable.empirestrikesback
+                6 -> R.drawable.returnofthejedi
+                7 -> R.drawable.theforceawakens
+                else -> R.drawable.placeholder
             }
+            Glide.with(viewHolder.itemView).load(drawable).centerCrop().into(viewHolder.itemView.imageViewPoster)
         }
         override fun getLayout(): Int {
             return R.layout.row_movies

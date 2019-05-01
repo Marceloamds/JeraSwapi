@@ -5,112 +5,147 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".MovieDetailActivity">
-<androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-    <com.github.florent37.shapeofview.shapes.ArcView
+        tools:context=".MovieDetailActivity" android:id="@+id/scrollView2">
+    <androidx.constraintlayout.widget.ConstraintLayout
             android:background="@drawable/background"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent" app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:id="@+id/arcView"
-            android:elevation="4dp"
-            app:shape_arc_height="30dp"
-            app:shape_arc_position="bottom">
+            android:layout_height="wrap_content">
+
+        <com.github.florent37.shapeofview.shapes.ArcView
+                android:background="@drawable/background"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent" app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:id="@+id/arcView"
+                android:elevation="4dp"
+                app:shape_arc_height="25dp"
+                app:shape_arc_position="bottom">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                    android:background="@drawable/background"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                <ImageView
+                        android:id="@+id/imageViewPoster"
+                        android:src="@drawable/thephantommenace"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp" app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" app:layout_constraintEnd_toEndOf="parent"
+                >
+                </ImageView>
+                <TextView
+                        android:text="The Empire Strikes Back"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="#99000000"
+                        android:id="@+id/textViewTitle"
+                        android:layout_marginStart="16dp"
+                        android:textSize="20sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:textColor="@android:color/white" android:visibility="visible"
+                        android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/backButton"/>
+                <ImageView
+                        android:visibility="visible"
+                        app:layout_constraintHorizontal_weight="1"
+                        android:src="@drawable/ic_back"
+                        android:layout_width="68dp"
+                        android:id="@+id/backButton" app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" android:layout_height="68dp" android:padding="24dp"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.github.florent37.shapeofview.shapes.ArcView>
+
         <TextView
-                android:text="Titulo"
+                android:text="Episode ID"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/textViewTitle"
+                android:id="@+id/episodeId" app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginStart="16dp"
-                android:textSize="24sp"
-                app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="16dp"
-                android:textColor="@android:color/white" android:visibility="visible"/>
-        <ImageView
-            android:id="@+id/imageViewPoster"
-            android:src="@drawable/thephantommenace"
-            android:layout_width="match_parent"
-            android:layout_height="200dp">
-    </ImageView>
-
-    </com.github.florent37.shapeofview.shapes.ArcView>
-
-    <TextView
-            android:text="Episode ID"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/episodeId" app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/editedDate"/>
-    <TextView
-            android:text="Opening Crawl"
-            android:layout_width="wrap_content"
-            android:layout_height="16dp"
-            android:id="@+id/openingCrawl"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="8dp" app:layout_constraintTop_toBottomOf="@+id/arcView"/>
-    <TextView
-            android:text="Director"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textViewDirector" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/openingCrawl"/>
-    <TextView
-            android:text="Producer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textViewProducer" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/textViewDirector"/>
-    <TextView
-            android:text="Release Date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/releaseDate" app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/textViewProducer"/>
-    <TextView
-            android:text="Edited Date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/editedDate" app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/releaseDate"/>
-    <Button
-            android:text="Ver Especies"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/buttonSpecies" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/buttonCharacters"
-            android:layout_marginStart="8dp"/>
-    <Button
-            android:text="Ver Naves"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/buttonStarships" app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/buttonSpecies"/>
-    <Button
-            android:text="Ver Veículos"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/buttonVehicles" android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/buttonStarships" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="8dp"/>
-    <Button
-            android:text="Ver Personagens"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/buttonCharacters" android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/episodeId" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="8dp"/>
-    <Button
-            android:text="Ver Planetas"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/buttonPlanets" android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/buttonVehicles" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="8dp"/>
+                android:textColor="@color/yellow"
+                android:textSize="12sp" android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@+id/openingCrawl"/>
+        <TextView
+                android:text="It is a dark time for the\nRebellion. Although the Death\nStar has been destroyed,\nImperial troops have driven the\nRebel forces from their hidden\nbase and pursued them across\nthe galaxy.\n\nEvading the dreaded Imperial\nStarfleet, a group of freedom\nfighters led by Luke Skywalker\nhas established a new secret\nbase on the remote ice world\nof Hoth.\n\nThe evil lord Darth Vader,\nobsessed with finding young\nSkywalker, has dispatched\nthousands of remote probes into\nthe far reaches of space...."
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:id="@+id/openingCrawl"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="8dp"
+                android:textColor="@color/yellow" app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="8dp" android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@+id/textViewOpeningCrawl"/>
+        <TextView
+                android:text="Director"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textViewDirector" app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="16dp"
+                app:layout_constraintTop_toBottomOf="@+id/episodeId" android:textColor="@color/yellow"
+                android:layout_marginTop="16dp" android:textSize="12sp"/>
+        <TextView
+                android:text="Producer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textViewProducer" app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="16dp"
+                app:layout_constraintTop_toBottomOf="@+id/textViewDirector" android:textColor="@color/yellow"
+                android:layout_marginTop="16dp" android:textSize="12sp"/>
+        <TextView
+                android:text="Release Date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/releaseDate" app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="16dp"
+                app:layout_constraintTop_toBottomOf="@+id/textViewProducer" android:textColor="@color/yellow"
+                android:layout_marginTop="16dp" android:textSize="12sp"/>
+        <Button
+                android:text="Ver Especies"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/buttonSpecies" app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/buttonCharacters"
+                android:layout_marginStart="8dp"/>
+        <Button
+                android:text="Ver Naves"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/buttonStarships" app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/buttonSpecies"/>
+        <Button
+                android:text="Ver Veículos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/buttonVehicles" android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@+id/buttonStarships" app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="8dp"/>
+        <Button
+                android:text="Ver Personagens"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/buttonCharacters"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="8dp" android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@+id/releaseDate"/>
+        <Button
+                android:text="Ver Planetas"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/buttonPlanets" android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@+id/buttonVehicles" app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="8dp"/>
+        <TextView
+                android:text="opening crawl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textViewOpeningCrawl" android:textColor="@color/yellow"
+                app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
+                app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
+                app:layout_constraintTop_toBottomOf="@+id/arcView"
+                android:layout_marginTop="16dp" android:textSize="18sp"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
