@@ -17,6 +17,7 @@ import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 
 class VehiclesActivity : AppCompatActivity() {
+    private lateinit var loadingDialog: LoadingDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,15 +38,21 @@ class VehiclesActivity : AppCompatActivity() {
         listViewVehicles.isNestedScrollingEnabled = false
         listViewVehicles.isFocusable = false
 
+        loadingDialog = LoadingDialog(this)
+        loadingDialog.showDialog()
+
         api.loadVehicles(vehiclesUrls)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe( {
+            .subscribe( {vehicle ->
                 //onNext - quando completa uma requisição
-                    vehicle -> list.add(VehicleItem(vehicle))
-                    vehicleAdapter.clear()
-                    vehicleAdapter.addAll(list)
-                    vehicleAdapter.notifyDataSetChanged()
+                if(loadingDialog.isShowing()== true)
+                    loadingDialog.hideDialog()
+
+                list.add(VehicleItem(vehicle))
+                vehicleAdapter.clear()
+                vehicleAdapter.addAll(list)
+                vehicleAdapter.notifyDataSetChanged()
             },{
                 //onError - quando dá erro na requisição
                     e -> e.printStackTrace()

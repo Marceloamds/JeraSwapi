@@ -19,6 +19,7 @@ import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 
 class PlanetsActivity : AppCompatActivity() {
+    private lateinit var loadingDialog: LoadingDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,15 +40,21 @@ class PlanetsActivity : AppCompatActivity() {
         listViewPlanets.isNestedScrollingEnabled = false
         listViewPlanets.isFocusable = false
 
+        loadingDialog = LoadingDialog(this)
+        loadingDialog.showDialog()
+
         api.loadPlanets(planetsUrls)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe( {
+            .subscribe( { planet ->
                 //onNext - quando completa uma requisição
-                    planet -> list.add(PlanetItem(planet))
-                    planetAdapter.clear()
-                    planetAdapter.addAll(list)
-                    planetAdapter.notifyDataSetChanged()
+                if(loadingDialog.isShowing()== true)
+                    loadingDialog.hideDialog()
+
+                list.add(PlanetItem(planet))
+                planetAdapter.clear()
+                planetAdapter.addAll(list)
+                planetAdapter.notifyDataSetChanged()
             },{
                 //onError - quando dá erro na requisição
                     e -> e.printStackTrace()

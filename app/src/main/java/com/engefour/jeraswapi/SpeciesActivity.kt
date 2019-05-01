@@ -17,6 +17,7 @@ import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 
 class SpeciesActivity : AppCompatActivity() {
+    private lateinit var loadingDialog: LoadingDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,12 +38,18 @@ class SpeciesActivity : AppCompatActivity() {
         listViewSpecies.isNestedScrollingEnabled = false
         listViewSpecies.isFocusable = false
 
+        loadingDialog = LoadingDialog(this)
+        loadingDialog.showDialog()
+
         api.loadSpecies(speciesUrls)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe( {
+            .subscribe( {specie ->
                 //onNext - quando completa uma requisição
-                specie -> list.add(SpecieItem(specie))
+                if(loadingDialog.isShowing()== true)
+                    loadingDialog.hideDialog()
+
+                list.add(SpecieItem(specie))
                 specieAdapter.clear()
                 specieAdapter.addAll(list)
                 specieAdapter.notifyDataSetChanged()

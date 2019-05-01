@@ -27,6 +27,7 @@ import com.engefour.jeraswapi.model.MovieItem
 
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var loadingDialog: LoadingDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,15 +45,20 @@ class MainActivity : AppCompatActivity() {
                 mainLayout.background = resource
             }
         })
+
         Glide.with(this).load(R.drawable.logo).into(imageViewLogo)
+        loadingDialog = LoadingDialog(this)
+        loadingDialog.showDialog()
 
         val api = StarWarsApi()
         api.loadMovies()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe( {
+            .subscribe( {movie ->
+            if(loadingDialog.isShowing()== true)
+                    loadingDialog.hideDialog()
                 //onNext - quando completa uma requisição
-                movie -> movieAdapter.add(MovieItem(this,movie))
+                movieAdapter.add(MovieItem(this,movie))
             },{
                 //onError - quando dá erro na requisição
                 e -> e.printStackTrace()

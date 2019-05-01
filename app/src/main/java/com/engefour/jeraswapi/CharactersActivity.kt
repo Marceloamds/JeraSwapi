@@ -17,6 +17,7 @@ import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 
 class CharactersActivity : AppCompatActivity() {
+    private lateinit var loadingDialog: LoadingDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,11 +38,17 @@ class CharactersActivity : AppCompatActivity() {
         listViewCharacters.isNestedScrollingEnabled = false
         listViewCharacters.isFocusable = false
 
+        loadingDialog = LoadingDialog(this)
+        loadingDialog.showDialog()
+
         api.loadCharacters(charactersUrls)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe( { character ->
-            //onNext - quando completa uma requisição
+                //onNext - quando completa uma requisição
+                if(loadingDialog.isShowing()== true)
+                    loadingDialog.hideDialog()
+
                 list.add(PersonItem(character))
                 characterAdapter.clear()
                 characterAdapter.addAll(list)

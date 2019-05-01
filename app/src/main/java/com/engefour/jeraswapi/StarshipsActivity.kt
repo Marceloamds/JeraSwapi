@@ -19,6 +19,7 @@ import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 
 class StarshipsActivity : AppCompatActivity() {
+    private lateinit var loadingDialog: LoadingDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,12 +40,18 @@ class StarshipsActivity : AppCompatActivity() {
         listViewStarships.isNestedScrollingEnabled = false
         listViewStarships.isFocusable = false
 
+        loadingDialog = LoadingDialog(this)
+        loadingDialog.showDialog()
+
         api.loadStarships(starshipsUrls)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe( {
+            .subscribe( {starship ->
                 //onNext - quando completa uma requisição
-                starship -> list.add(StarshipItem(starship))
+                if(loadingDialog.isShowing()== true)
+                    loadingDialog.hideDialog()
+
+                list.add(StarshipItem(starship))
                 starshipAdapter.clear()
                 starshipAdapter.addAll(list)
                 starshipAdapter.notifyDataSetChanged()
@@ -52,7 +59,7 @@ class StarshipsActivity : AppCompatActivity() {
                 //onError - quando dá erro na requisição
                     e -> e.printStackTrace()
             },{
-                //onComplete - quando completa todas as requisições
+                //onComplete - quando completam todas as requisições
             })
 
         Glide.with(this).load(R.drawable.background).centerCrop()
