@@ -1,7 +1,8 @@
-package com.engefour.jeraswapi.model
+package com.engefour.jeraswapi.model.item
 
 import com.bumptech.glide.Glide
 import com.engefour.jeraswapi.R
+import com.engefour.jeraswapi.model.Pessoa
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.row_people.view.*
@@ -14,6 +15,7 @@ class PersonItem(private val person: Pessoa): Item<ViewHolder>(){
         viewHolder.itemView.textViewHeightMass.text = person.height+" cm height , "+person.mass+" kg"
         viewHolder.itemView.textViewPersonColor.text = person.skinColor+" skin, "+person.hairColor+" hair, "+person.eyeColor+" eyes"
 
+        //Se o nome for um desses descritos, coloca uma imagem individual. Se não, usa um placeholder.
         val drawable =  when(person.name){
             "Luke Skywalker"-> "https://cdn1.newsplex.pt/media/2018/12/4/668548.jpg?type=artigo"
             "C-3PO" ->"https://cdn.images.express.co.uk/img/dynamic/36/590x/secondary/Star-Wars-C3PO-is-shocked-by-the-foul-language-964367.jpg"

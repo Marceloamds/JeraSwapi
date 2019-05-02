@@ -1,17 +1,14 @@
-package com.engefour.jeraswapi
+package com.engefour.jeraswapi.activities
 
 import android.content.Intent
-import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import com.bumptech.glide.Glide
 import com.engefour.jeraswapi.model.Filme
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_movie_detail.*
-import kotlinx.android.synthetic.main.row_movies.view.*
 import android.graphics.Typeface
-
+import com.engefour.jeraswapi.*
 
 
 class MovieDetailActivity : AppCompatActivity() {
@@ -57,32 +54,32 @@ class MovieDetailActivity : AppCompatActivity() {
         }
 
         buttonCharacters.setOnClickListener {
-            val i = Intent(this,CharactersActivity::class.java)
+            val i = Intent(this, CharactersActivity::class.java)
             i.putStringArrayListExtra("charactersUrls", movie.characters)
             i.putExtra("movieTitle",movie.title)
             startActivity(i)
         }
 
         buttonSpecies.setOnClickListener {
-            val i = Intent(this,SpeciesActivity::class.java)
+            val i = Intent(this, SpeciesActivity::class.java)
             i.putStringArrayListExtra("speciesUrls", movie.species)
             i.putExtra("movieTitle",movie.title)
             startActivity(i)
         }
         buttonPlanets.setOnClickListener {
-            val i = Intent(this,PlanetsActivity::class.java)
+            val i = Intent(this, PlanetsActivity::class.java)
             i.putStringArrayListExtra("planetsUrls", movie.planets)
             i.putExtra("movieTitle",movie.title)
             startActivity(i)
         }
         buttonStarships.setOnClickListener {
-            val i = Intent(this,StarshipsActivity::class.java)
+            val i = Intent(this, StarshipsActivity::class.java)
             i.putStringArrayListExtra("starshipsUrls", movie.starships)
             i.putExtra("movieTitle",movie.title)
             startActivity(i)
         }
         buttonVehicles.setOnClickListener {
-            val i = Intent(this,VehiclesActivity::class.java)
+            val i = Intent(this, VehiclesActivity::class.java)
             i.putStringArrayListExtra("vehiclesUrls", movie.vehicles)
             i.putExtra("movieTitle",movie.title)
             startActivity(i)

@@ -3,7 +3,6 @@ package com.engefour.jeraswapi.model
 import java.util.*
 
 //Data Classes para serem usadas na aplicação em si
-
 data class  Filme( val title:String,
                   val episodeId:Int,
                   val openingCrawl:String,

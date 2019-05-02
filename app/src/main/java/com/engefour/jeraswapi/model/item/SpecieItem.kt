@@ -1,8 +1,9 @@
-package com.engefour.jeraswapi.model
+package com.engefour.jeraswapi.model.item
 
 import android.annotation.SuppressLint
 import com.bumptech.glide.Glide
 import com.engefour.jeraswapi.R
+import com.engefour.jeraswapi.model.Especie
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.row_species.view.*
@@ -17,11 +18,12 @@ class SpecieItem(private val specie: Especie): Item<ViewHolder>(){
         viewHolder.itemView.textViewLanguage.text = "Speaks "+specie.language
         viewHolder.itemView.textViewSpecieColor.text =specie.eyeColors+" eyes\n"+specie.hairColors+" hair"
 
+        //Se o nome for um desses descritos, coloca uma imagem individual. Se não, usa um placeholder.
         val drawable =  when(specie.name){
             "Human"-> "https://secure.img1-fg.wfcdn.com/im/75413820/resize-h600-w600%5Ecompr-r85/2804/28041725/%27Proportions+of+the+Human+Figure+%28Vitruvian+Man%29%27+by+Leonardo+Da+Vinci+Graphic+Art+on+Wrapped+Canvas.jpg"
             "Droid" ->"https://images-na.ssl-images-amazon.com/images/I/613XhZOh78L._SY450_.jpg"
             "Yoda's Species" -> "https://img1.looper.com/img/gallery/the-worst-things-yoda-has-ever-done/intro-1523455063.jpg"
-            "Wookie" -> "https://i.ebayimg.com/images/g/Bg4AAOxy4dNS0rUD/s-l300.jpg"
+            "Wookiee" -> "https://i.ebayimg.com/images/g/Bg4AAOxy4dNS0rUD/s-l300.jpg"
             else -> "https://image.freepik.com/free-icon/alien_318-1528.jpg"
         }
         Glide.with(viewHolder.itemView).load(drawable).centerCrop().into(viewHolder.itemView.imageViewSpecie)

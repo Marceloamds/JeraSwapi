@@ -4,6 +4,7 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import rx.Observable
 
+//função que faz a definição da API. Faz a requisição do Retrofit e retorna um Observable com RxJava
 interface StarWarsApiDef{
     @GET("films")
     fun listMovies(): Observable<FilmResult>

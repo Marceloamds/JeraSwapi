@@ -28,6 +28,7 @@ class StarWarsApi{
 
         val gson = GsonBuilder().setLenient().create()
 
+        //Builder do Retrofit
         val retrofit = Retrofit.Builder()
             .baseUrl("http://swapi.co/api/")
             .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
@@ -38,6 +39,7 @@ class StarWarsApi{
         service = retrofit.create<StarWarsApiDef>(StarWarsApiDef::class.java)
     }
 
+    //Função p/ fazer a requisição de todos os filmes
     fun loadMovies(): Observable<Filme>{
         return service.listMovies()
             .flatMap { filmResult -> Observable.from(filmResult.results)
@@ -47,6 +49,7 @@ class StarWarsApi{
                     film.charactersUrls,film.planetsUrls,film.url,film.creationDate,film.editedDate)) }}
     }
 
+    //Função p/ fazer a requisição de um veículo
     fun loadVehicles(vehiclesUrls:ArrayList<String>): Observable<Veiculo>{
         return Observable.from(vehiclesUrls)
             .flatMap { vehicleUrl ->
@@ -59,6 +62,7 @@ class StarWarsApi{
             }
     }
 
+    //Função p/ fazer a requisição de um planeta
     fun loadPlanets(planetsUrls:ArrayList<String>): Observable<Planeta> {
         return Observable.from(planetsUrls)
             .flatMap { planetUrl ->
@@ -71,7 +75,7 @@ class StarWarsApi{
             }
     }
 
-
+    //Função p/ fazer a requisição de um personagem
     fun loadCharacters(charactersUrls:ArrayList<String>): Observable<Pessoa> {
         return Observable.from(charactersUrls)
             .flatMap { characterUrl ->
@@ -85,7 +89,7 @@ class StarWarsApi{
             }
 
     }
-
+    //Função p/ fazer a requisição de uma nave
     fun loadStarships(starshipsUrls:ArrayList<String>): Observable<Nave> {
         return Observable.from(starshipsUrls)
             .flatMap { starshipUrl ->
@@ -99,7 +103,7 @@ class StarWarsApi{
             }
 
     }
-
+    //Função p/ fazer a requisição de uma espécie
     fun loadSpecies(speciesUrls:ArrayList<String>): Observable<Especie> {
         return Observable.from(speciesUrls)
             .flatMap { specieUrl ->

@@ -1,4 +1,4 @@
-package com.engefour.jeraswapi.model
+package com.engefour.jeraswapi.model.item
 
 import android.app.Dialog
 import android.content.Context
@@ -7,8 +7,9 @@ import android.view.LayoutInflater
 import android.view.Window
 import android.widget.TextView
 import com.bumptech.glide.Glide
-import com.engefour.jeraswapi.MovieDetailActivity
+import com.engefour.jeraswapi.activities.MovieDetailActivity
 import com.engefour.jeraswapi.R
+import com.engefour.jeraswapi.model.Filme
 import com.google.gson.Gson
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
@@ -21,6 +22,7 @@ class MovieItem(private val context: Context, private val movie: Filme): Item<Vi
         val yearRelease = 1900+ movie.releaseDate.year
         viewHolder.itemView.textViewDate.text = "Released in $yearRelease"
         viewHolder.itemView.textViewDirector.text = "Directed by "+movie.director
+
         viewHolder.itemView.setOnClickListener {
             val i = Intent(context, MovieDetailActivity::class.java)
             i.putExtra("movie", Gson().toJson(movie))
@@ -40,7 +42,7 @@ class MovieItem(private val context: Context, private val movie: Filme): Item<Vi
             dialog.setContentView(view)
             dialog.show()
         }
-
+        //Troca de foto de acordo com o filme. Se algum filme for adicionado futuramente, colocará o placeholder
         val drawable =  when(movie.episodeId){
             1-> R.drawable.thephantommenace
             2 -> R.drawable.attackoftheclones

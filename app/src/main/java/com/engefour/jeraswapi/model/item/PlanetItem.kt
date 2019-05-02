@@ -1,7 +1,8 @@
-package com.engefour.jeraswapi.model
+package com.engefour.jeraswapi.model.item
 
 import com.bumptech.glide.Glide
 import com.engefour.jeraswapi.R
+import com.engefour.jeraswapi.model.Planeta
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.row_planets.view.*
@@ -14,6 +15,7 @@ class PlanetItem(private val planet: Planeta): Item<ViewHolder>(){
         viewHolder.itemView.textViewPeriods.text = planet.rotationPeriod + " hours day, "+planet.orbitalPeriod+" days year"
         viewHolder.itemView.textViewWaterGravity.text =planet.surfaceWater+"% water. Gravity: "+planet.gravity
 
+        //Se o nome for um desses descritos, coloca uma imagem individual. Se não, usa um placeholder.
         val drawable =  when(planet.name){
             "Tatooine" -> "https://ogimg.infoglobo.com.br/cultura/12150764-094-506/FT1086A/652/xtattoine.jpg.pagespeed.ic.UDI9IRCDfU.jpg"
             "Alderaan" -> "https://lumiere-a.akamaihd.net/v1/images/databank_alderaan_01_169_4a5264e2.jpeg?region=0%2C0%2C1560%2C878&width=960"
@@ -23,6 +25,7 @@ class PlanetItem(private val planet: Planeta): Item<ViewHolder>(){
             "Naboo" -> "https://lumiere-a.akamaihd.net/v1/images/databank_naboo_01_169_6cd7e1e0.jpeg?region=0%2C0%2C1560%2C878&width=960"
             else -> "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS7S-9K8IqBWCUy-tUEi-F4eRIU9wfnMWhKHEPiAzZ-UvESDUJa"
         }
+
         Glide.with(viewHolder.itemView).load(drawable).centerCrop().into(viewHolder.itemView.imageViewPlanet)
     }
     override fun getLayout(): Int {

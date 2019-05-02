@@ -1,29 +1,21 @@
-package com.engefour.jeraswapi
+package com.engefour.jeraswapi.activities
 
-import android.app.Dialog
-import android.content.Context
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.engefour.jeraswapi.model.api.StarWarsApi
 import com.xwray.groupie.GroupAdapter
-import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.row_movies.view.*
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
-import com.engefour.jeraswapi.model.Filme
-import com.google.gson.Gson
 import android.graphics.drawable.Drawable
-import android.view.LayoutInflater
-import android.view.Window
-import android.widget.TextView
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
-import com.engefour.jeraswapi.model.MovieItem
+import com.engefour.jeraswapi.LoadingDialog
+import com.engefour.jeraswapi.R
+import com.engefour.jeraswapi.model.item.MovieItem
 
 
 class MainActivity : AppCompatActivity() {
@@ -58,7 +50,7 @@ class MainActivity : AppCompatActivity() {
             if(loadingDialog.isShowing()== true)
                     loadingDialog.hideDialog()
                 //onNext - quando completa uma requisição
-                movieAdapter.add(MovieItem(this,movie))
+                movieAdapter.add(MovieItem(this, movie))
             },{
                 //onError - quando dá erro na requisição
                 e -> e.printStackTrace()

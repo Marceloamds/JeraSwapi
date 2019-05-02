@@ -1,8 +1,9 @@
-package com.engefour.jeraswapi.model
+package com.engefour.jeraswapi.model.item
 
 import android.annotation.SuppressLint
 import com.bumptech.glide.Glide
 import com.engefour.jeraswapi.R
+import com.engefour.jeraswapi.model.Veiculo
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.row_vehicles.view.*
@@ -17,6 +18,7 @@ class VehicleItem(private val vehicle: Veiculo): Item<ViewHolder>(){
                 "\nWith "+vehicle.consumables+" worth of supplies\nand "+vehicle.cargoCapacity+" kilos of cargo"
         viewHolder.itemView.textViewLengthCost.text = vehicle.length+" meters in length\nCosts "+vehicle.costInCredits+" credits"
 
+        //Se o nome for um desses descritos, coloca uma imagem individual. Se não, usa um placeholder.
         val drawable =  when(vehicle.name){
             "Sand Crawler"-> "https://vignette.wikia.nocookie.net/starwars/images/f/ff/Sandcrawler.png/revision/latest?cb=20130812001443"
             "Zephyr-G swoop bike"-> "http://kenkoontzart.com/wp-content/uploads/2011/07/ZephyrG_01.jpg"

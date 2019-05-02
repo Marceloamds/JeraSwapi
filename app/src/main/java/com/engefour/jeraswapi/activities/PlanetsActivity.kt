@@ -1,4 +1,4 @@
-package com.engefour.jeraswapi
+package com.engefour.jeraswapi.activities
 
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
@@ -8,7 +8,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
-import com.engefour.jeraswapi.model.PlanetItem
+import com.engefour.jeraswapi.LoadingDialog
+import com.engefour.jeraswapi.R
+import com.engefour.jeraswapi.model.item.PlanetItem
 import com.engefour.jeraswapi.model.api.StarWarsApi
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
@@ -31,15 +33,17 @@ class PlanetsActivity : AppCompatActivity() {
         val api = StarWarsApi()
         val planetAdapter = GroupAdapter<ViewHolder>()
 
+        //Muda a fonte do título
         val jediFont = Typeface.createFromAsset(assets, "fonts/Starjedi.ttf")
         textViewTitle.typeface = jediFont
         textViewTitle.text = "$movieName's Planets"
 
+        //Prepara a lista de planetas
         listViewPlanets.layoutManager = LinearLayoutManager(this)
         listViewPlanets.adapter = planetAdapter
         listViewPlanets.isNestedScrollingEnabled = false
         listViewPlanets.isFocusable = false
-
+        //Mostra o loading dialog
         loadingDialog = LoadingDialog(this)
         loadingDialog.showDialog()
 
@@ -48,9 +52,10 @@ class PlanetsActivity : AppCompatActivity() {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe( { planet ->
                 //onNext - quando completa uma requisição
+                //Quando o primeiro item aparecer, desaparece o loading
                 if(loadingDialog.isShowing()== true)
                     loadingDialog.hideDialog()
-
+                //Cada vez que um item é adicionado, ele adiciona a lista. Feito p/ não dar error no adapter
                 list.add(PlanetItem(planet))
                 planetAdapter.clear()
                 planetAdapter.addAll(list)
@@ -62,6 +67,7 @@ class PlanetsActivity : AppCompatActivity() {
                 //onComplete - quando completa todas as requisições
             })
 
+        //usa glide para carregar o background de forma eficiente
         Glide.with(this).load(R.drawable.background).centerCrop()
             .into(object : SimpleTarget<Drawable>() {
                 override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {

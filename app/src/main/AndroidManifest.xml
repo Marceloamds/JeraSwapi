@@ -11,19 +11,19 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".PlanetsActivity">
+        <activity android:name=".activities.PlanetsActivity">
         </activity>
-        <activity android:name=".VehiclesActivity">
+        <activity android:name=".activities.VehiclesActivity">
         </activity>
-        <activity android:name=".StarshipsActivity">
+        <activity android:name=".activities.StarshipsActivity">
         </activity>
-        <activity android:name=".SpeciesActivity">
+        <activity android:name=".activities.SpeciesActivity">
         </activity>
-        <activity android:name=".CharactersActivity">
+        <activity android:name=".activities.CharactersActivity">
         </activity>
-        <activity android:name=".MovieDetailActivity">
+        <activity android:name=".activities.MovieDetailActivity">
         </activity>
-        <activity android:name=".MainActivity">
+        <activity android:name=".activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
